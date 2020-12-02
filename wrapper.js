@@ -8,9 +8,9 @@ const { execFileSync } = require('child_process');
 const path = require('path');
 const isPost = !!process.env['STATE_isPost'];
 
-const script = path.join(__dirname, isPost ? 'unmake.sh' : 'make.sh');
-execFileSync(script, { stdio: 'inherit' });
-
 if (!isPost) {
   console.log('::save-state name=isPost::true');
 }
+
+const script = path.join(__dirname, isPost ? 'unmake.sh' : 'make.sh');
+execFileSync(script, { stdio: 'inherit' });
