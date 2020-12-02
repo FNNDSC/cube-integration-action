@@ -5,7 +5,12 @@ repo=${INPUT_REPOSITORY:-https://github.com/FNNDSC/ChRIS_ultron_backEnd.git}
 cube_folder=$(mktemp -dt ChRIS_ultron_backEnd_XXXX)
 echo "::save-state name=cube_folder::$cube_folder"
 
-git clone --depth=1 "$repo" $cube_folder
+branch=
+if [ -n "$INPUT_BRANCH" ]; then
+  branch="--branch=$INPUT_BRANCH"
+fi
+
+git clone --depth=1 $branch "$repo" $cube_folder
 cd $cube_folder
 
 docker pull fnndsc/pfdcm

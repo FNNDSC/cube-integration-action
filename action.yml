@@ -7,7 +7,10 @@ inputs:
     description: "git repository of ChRIS_ultron_backEnd"
     required: false
     default: https://github.com/FNNDSC/ChRIS_ultron_backEnd.git
-
+  branch:
+    description: "which git branch to checkout"
+    required: false
+    default: ""
 runs:
   using: node12
   main: wrapper.js
