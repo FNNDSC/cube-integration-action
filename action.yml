@@ -1,0 +1,18 @@
+name: "CUBE Integration Tests"
+description: "Run ChRIS_ultron_backEnd integration tests"
+author: "FNNDSC"
+
+inputs:
+  repository:
+    description: "git repository of ChRIS_ultron_backEnd"
+    required: false
+    default: https://github.com/FNNDSC/ChRIS_ultron_backEnd.git
+
+runs:
+  using: node12
+  main: wrapper.js
+  post: wrapper.js
+
+branding:
+  color: "blue"
+  icon: "box"
