@@ -29,7 +29,8 @@ docker-compose up -d
 { set +x; } 2> /dev/null
 printf Waiting for MySQL database to be ready to accept connections
 tries=0
-until docker-compose exec -T chris_dev_db mysqladmin -uroot -prootp status > /dev/null 2>&1; do
+until docker-compose exec -T chris_dev_db mysqladmin -uroot -prootp status \
+  > /dev/null 2>&1; do
   printf .
   sleep 5
   if [ "$((tries++))" -gt "60" ]; then
@@ -41,6 +42,7 @@ echo done
 
 set -x
 
-docker-compose exec -T chris_dev_db mysql -uroot -prootp -e 'GRANT ALL PRIVILEGES ON *.* TO "chris"@"%"'
+docker-compose exec -T chris_dev_db mysql -uroot -prootp \
+    -e 'GRANT ALL PRIVILEGES ON *.* TO "chris"@"%"' > /dev/null 2>&1
 
 docker-compose exec -T chris_dev python manage.py test --tag integration
