@@ -22,10 +22,10 @@ export STOREBASE=$PWD/FS/remote COMPOSE_FILE=$PWD/docker-compose_dev.yml
 docker-compose up -d
 
 { set +x; } 2> /dev/null
-echo Waiting for MySQL database to be ready to accept connections
+printf Waiting for MySQL database to be ready to accept connections
 tries=0
-until docker-compose exec -T chris_dev_db mysqladmin -uroot -prootp status 2> /dev/null; do
-  echo .
+until docker-compose exec -T chris_dev_db mysqladmin -uroot -prootp status > /dev/null 2>&1; do
+  printf .
   sleep 5
   if [ "$((tries++))" -gt "60" ]; then
     echo "Timed out waiting for MySQL server"
