@@ -17,7 +17,11 @@ In a prior step, build your container image with the tag `fnndsc/p*`, i.e. one w
 ```yaml
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   test:
@@ -25,5 +29,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker build -t fnndsc/pfcon .
-      - uses: FNNDSC/cube-integration-action@v1
+      - uses: FNNDSC/cube-integration-action@v2
 ```

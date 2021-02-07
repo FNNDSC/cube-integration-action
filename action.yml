@@ -1,16 +1,21 @@
-name: "CUBE Integration Tests"
+name: "ChRIS Backend Integration Tests"
 description: "Run ChRIS_ultron_backEnd integration tests"
 author: "FNNDSC"
 
 inputs:
   repository:
-    description: "git repository of ChRIS_ultron_backEnd"
+    description: "git repository or local directory of ChRIS_ultron_backEnd"
     required: false
     default: https://github.com/FNNDSC/ChRIS_ultron_backEnd.git
   branch:
     description: "which git branch to checkout"
     required: false
     default: ""
+  which:
+    description: "test tags to run [integration (default), all, '']"
+    required: false
+    default: "integration"
+
 runs:
   using: node12
   main: wrapper.js

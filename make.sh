@@ -1,17 +1,26 @@
 #!/bin/bash -ex
 # provision CUBE for local development and then run integration tests
 
+# get inputs
 repo=${INPUT_REPOSITORY:-https://github.com/FNNDSC/ChRIS_ultron_backEnd.git}
-cube_folder=$(mktemp -dt ChRIS_ultron_backEnd_XXXX)
-echo "::save-state name=cube_folder::$cube_folder"
-
 branch=
 if [ -n "$INPUT_BRANCH" ]; then
   branch="--branch=$INPUT_BRANCH"
 fi
 
-git clone --depth=1 $branch "$repo" $cube_folder
+# check if repo needs to be downloaded
+if [ -d "$repo" ]; then
+  cube_folder="$(realpath "$repo")"
+  if [ -n "branch"]; then
+    echo "::warning ::Ignoring branch=$branch because repository=$repo is a directory"
+  fi
+else
+  cube_folder=$(mktemp -dt ChRIS_ultron_backEnd_XXXX)
+  git clone --depth=1 $branch "$repo" $cube_folder
+fi
+
 cd $cube_folder
+echo "::save-state name=cube_folder::$cube_folder"
 
 docker pull fnndsc/pfdcm
 docker pull fnndsc/swarm
@@ -45,4 +54,11 @@ set -x
 docker-compose exec -T chris_dev_db mysql -uroot -prootp \
     -e 'GRANT ALL PRIVILEGES ON *.* TO "chris"@"%"' > /dev/null 2>&1
 
-docker-compose exec -T chris_dev python manage.py test --tag integration
+
+if [ "$INPUT_WHICH" = "all" ]; then
+  docker-compose exec -T chris_dev python manage.py test
+elif [ -n "$INPUT_WHICH" ]; then
+  docker-compose exec -T chris_dev python manage.py test --tag "$INPUT_WHICH"
+else
+  echo "Skipped"
+fi
