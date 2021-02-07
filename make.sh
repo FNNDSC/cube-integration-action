@@ -15,6 +15,7 @@ if [ -d "$repo" ]; then
     echo "::warning ::Ignoring branch=$branch because repository=$repo is a directory"
   fi
 else
+  echo "::save-state name=should_cleanup::true"
   cube_folder=$(mktemp -dt ChRIS_ultron_backEnd_XXXX)
   git clone --depth=1 $branch "$repo" $cube_folder
 fi
