@@ -23,9 +23,6 @@ fi
 cd $cube_folder
 echo "::save-state name=cube_folder::$cube_folder"
 
-docker pull fnndsc/pfdcm
-docker pull fnndsc/swarm
-
 docker swarm init --advertise-addr 127.0.0.1
 
 chmod -R 755 $PWD
