@@ -11,7 +11,7 @@ fi
 # check if repo needs to be downloaded
 if [ -d "$repo" ]; then
   cube_folder="$(realpath "$repo")"
-  if [ -n "branch"]; then
+  if [ -n "branch" ]; then
     echo "::warning ::Ignoring branch=$branch because repository=$repo is a directory"
   fi
 else
@@ -24,6 +24,8 @@ cd $cube_folder
 echo "::save-state name=cube_folder::$cube_folder"
 
 docker swarm init --advertise-addr 127.0.0.1
+docker network create -d overlay --attachable remote
+docker stack deploy -c $PWD/docker-compose_remote.yml pfcon_stack
 
 chmod -R 755 $PWD
 mkdir -p FS/remote
