@@ -32,7 +32,7 @@ chmod -R 777 FS
 
 export STOREBASE=$PWD/FS/remote COMPOSE_FILE=$PWD/docker-compose_dev.yml
 
-docker stack deploy -c $PWD/docker-compose_remote.yml pfcon_stack
+docker stack deploy -c $PWD/swarm/docker-compose_remote.yml pfcon_stack
 docker-compose up -d
 
 { set +x; } 2> /dev/null
