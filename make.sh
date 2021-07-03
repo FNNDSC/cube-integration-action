@@ -36,24 +36,20 @@ docker stack deploy -c $PWD/swarm/docker-compose_remote.yml pfcon_stack
 docker-compose up -d
 
 { set +x; } 2> /dev/null
-printf Waiting for MySQL database to be ready to accept connections
+printf Waiting for PostgreSQL database to be ready to accept connections
 tries=0
-until docker-compose exec -T chris_dev_db mysqladmin -uroot -prootp status \
+until docker-compose exec -T chris_dev_db psql -U chris -d chris_dev -c "select 1" \
   > /dev/null 2>&1; do
   printf .
   sleep 5
   if [ "$((tries++))" -gt "60" ]; then
-    echo "Timed out waiting for MySQL server"
+    echo "Timed out waiting for PostgreSQL server"
     exit 1
   fi
 done
 echo done
 
 set -x
-
-docker-compose exec -T chris_dev_db mysql -uroot -prootp \
-    -e 'GRANT ALL PRIVILEGES ON *.* TO "chris"@"%"' > /dev/null 2>&1
-
 
 if [ "$INPUT_WHICH" = "all" ]; then
   docker-compose exec -T chris_dev python manage.py test

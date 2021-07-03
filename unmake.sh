@@ -2,9 +2,9 @@
 
 cd $STATE_cube_folder
 
-docker network rm remote
 docker stack rm pfcon_stack
 docker-compose -f docker-compose_dev.yml down -v
+docker network rm remote
 docker swarm leave --force
 
 cd -
