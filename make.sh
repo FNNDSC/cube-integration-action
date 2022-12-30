@@ -15,13 +15,13 @@ if [ -d "$repo" ]; then
     echo "::warning ::Ignoring branch=$branch because repository=$repo is a directory"
   fi
 else
-  echo "::save-state name=should_cleanup::true"
+  echo "should_cleanup=true" >> $GITHUB_STATE
   cube_folder=$(mktemp -dt ChRIS_ultron_backEnd_XXXX)
   git clone --depth=1 $branch "$repo" $cube_folder
 fi
 
 cd $cube_folder
-echo "::save-state name=cube_folder::$cube_folder"
+echo "cube_folder=$cube_folder" >> $GITHUB_STATE
 
 docker swarm init --advertise-addr 127.0.0.1
 docker network create -d overlay --attachable remote
