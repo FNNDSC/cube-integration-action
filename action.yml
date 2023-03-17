@@ -17,7 +17,7 @@ inputs:
     default: "integration"
 
 runs:
-  using: node12
+  using: node16
   main: wrapper.js
   post: wrapper.js
 
