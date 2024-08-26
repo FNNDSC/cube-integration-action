@@ -30,7 +30,7 @@ chmod -R 755 $PWD
 mkdir -p FS/remote
 chmod -R 777 FS
 
-export STOREBASE=$PWD/FS/remote COMPOSE_FILE=$PWD/docker-compose_dev.yml UID=$(id -u) GID=$(id -g)
+export STOREBASE=$PWD/FS/remote COMPOSE_FILE=$PWD/docker-compose_dev.yml
 
 docker stack deploy -c $PWD/swarm/docker-compose_remote.yml pfcon_stack
 docker compose up -d
