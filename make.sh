@@ -33,7 +33,7 @@ chmod -R 777 FS
 export STOREBASE=$PWD/FS/remote COMPOSE_FILE=$PWD/docker-compose_dev.yml
 
 docker stack deploy -c $PWD/swarm/docker-compose_remote.yml pfcon_stack
-docker compose up -d
+docker compose up -d --build
 
 { set +x; } 2> /dev/null
 printf Waiting for PostgreSQL database to be ready to accept connections
