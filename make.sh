@@ -33,12 +33,12 @@ chmod -R 777 FS
 export STOREBASE=$PWD/FS/remote COMPOSE_FILE=$PWD/docker-compose_dev.yml
 
 docker stack deploy -c $PWD/swarm/docker-compose_remote.yml pfcon_stack
-docker-compose up -d
+docker compose up -d
 
 { set +x; } 2> /dev/null
 printf Waiting for PostgreSQL database to be ready to accept connections
 tries=0
-until docker-compose exec -T chris_dev_db psql -U chris -d chris_dev -c "select 1" \
+until docker compose exec -T chris_dev_db psql -U chris -d chris_dev -c "select 1" \
   > /dev/null 2>&1; do
   printf .
   sleep 5
@@ -52,9 +52,9 @@ echo done
 set -x
 
 if [ "$INPUT_WHICH" = "all" ]; then
-  docker-compose exec -T chris_dev python manage.py test
+  docker compose exec -T chris_dev python manage.py test
 elif [ -n "$INPUT_WHICH" ]; then
-  docker-compose exec -T chris_dev python manage.py test --tag "$INPUT_WHICH"
+  docker compose exec -T chris_dev python manage.py test --tag "$INPUT_WHICH"
 else
   echo "Skipped"
 fi
